@@ -24,7 +24,7 @@
 }
 
 .at-ul-step {
-	margin-left: 20px;
+	margin-left: 22px;
 }
 
 .at-li-step {
@@ -39,4 +39,9 @@
 
 .at-li-step-title > div {
 	float: left;
+}
+
+.at-step-ul-btn {
+	margin-left: 22px;
+	width: 100%;
 }

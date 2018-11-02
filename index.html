@@ -16,25 +16,7 @@
 		<h1>AngularJS Tree.</h1>
 
 		<div ng-app="App" ng-controller="Tree" class="at-app">
-			<div ng-repeat="script in list_scripts track by script.id"
-				class="at-script">
-				<div class="at-script-title" ng-click="script.open = !script.open">
-					<i class="ti-layers-alt"></i>
-					<div>{{script.title}}</div>
-				</div>
-
-				<div class="at-ul-step" ng-show="script.open">
-					<div class="at-li-step" ng-repeat="step in script.list_steps">
-						<div class="at-li-step-title" ng-click="step_click(step)">
-							<i class="{{get_step_icon(step.type)}}"></i>
-							<div>{{step.title}}</div>
-						</div>
-						<at_script key='step'></at_script>
-					</div>
-				</div>
-
-			</div>
-			
+			<at-script scripts='scripts'></at_script>
 		</div>
 
 	</body>
