@@ -4,7 +4,7 @@ app.controller('Tree', AtScriptController);
 
 app.component('atScript', {
     template: `
-    	<div ng-repeat="script in $ctrl.scripts track by script.id"
+    	<div ng-repeat="script in $ctrl.scripts"
 			class="at-script">
 			<div class="at-script-title" ng-click="script.open = !script.open">
 				<i class="ti-layers-alt"></i>
@@ -18,156 +18,102 @@ app.component('atScript', {
 						<div>{{step.title}}</div>
 
 						<div class="at-step-ul-btn" ng-show="step.type === 'menu'">
-							<div ng-repeat="btn in step.list_buttons track by $index"
-								ng-click="$ctrl.btn_click(btn)"
-							>
-								{{btn.title}}
+							<div ng-repeat="btn in step.list_buttons">
+								<div class="at-btn-title" 
+									ng-click="$ctrl.btn_click(btn)">
+									{{btn.title}}</div>
 
-								<at-script scripts='btn.script' ng-if='btn.clicked'></at_script>
+								<at-script scripts='btn.scripts' 
+									type='sub' 
+									ng-if='btn.clicked'
+									></at_script>
 							</div>
 						</div>	
 					</div>
 					
 				</div>
 			</div>
-
 		</div>
     `,
     controller: [
         AtScriptController
     ],
     bindings: {
-        scripts: '='
+        scripts: '=',
+        type: '@'
     }
 });
 
 
 function AtScriptController() {
-	console.log(this);
 	$scope = this;
-	$scope.scripts = [
-		{
-			id: 1,
-			title: 'Welcome',
-			list_steps: [
-				{
-					title: 'Form Text',
-					type: 'text'
-				},
-				{
-					title: 'Form menu',
-					type: 'menu',
-					list_buttons: [
-						{
-							title: 'Script Btn',
-							type: 'script',
-							scripts: [{
-								title: 'Script 1',
-								id: 2
-							}]
-						},
-						{
-							title: 'Text Btn',
-							type: 'text'
-						}
-					]
-				}
-			]
-		},
+	if ($scope.type === 'parent') {
+		$scope.scripts = [
+			{
+				id: 1,
+				title: 'Welcome',
+				list_steps: [
+					{
+						title: 'Form Text',
+						type: 'text'
+					},
+					{
+						title: 'Form menu',
+						type: 'menu',
+						list_buttons: [
+							{
+								title: 'Script Btn',
+								type: 'script',
+								scripts: [{
+									title: 'Script 1',
+									id: 2
+								}]
+							},
+							{
+								title: 'Text Btn',
+								type: 'text'
+							}
+						]
+					}
+				]
+			},
+			{
+				id: 2,
+				title: 'Script 1',
+				list_steps: [
+					{
+						title: 'Form Text',
+						type: 'text'
+					},
+					{
+						title: 'Form menu',
+						type: 'menu',
+						list_buttons: [
+							{
+								title: 'Script Btn',
+								type: 'script',
+								scripts: [{
+									title: 'Script 1',
+									id: 2
+								}]
+							},
+							{
+								title: 'Text Btn',
+								type: 'text'
+							}
+						]
+					}
+				]
+			}
+		];
+	}
 
-		{
-			id: 2,
-			title: 'Script 1',
-			list_steps: [
-				{
-					title: 'Form Text',
-					type: 'text'
-				},
-				{
-					title: 'Form menu',
-					type: 'menu',
-					list_buttons: [
-						{
-							title: 'Script Btn',
-							type: 'script',
-							scripts: [{
-								title: 'Script 1',
-								id: 2
-							}]
-						},
-						{
-							title: 'Text Btn',
-							type: 'text'
-						}
-					]
-				}
-			]
-		}
-	];
-
-	$scope.scripts_copy = [
-		{
-			id: 1,
-			title: 'Welcome',
-			list_steps: [
-				{
-					title: 'Form Text',
-					type: 'text'
-				},
-				{
-					title: 'Form menu',
-					type: 'menu',
-					list_buttons: [
-						{
-							title: 'Script Btn',
-							type: 'script',
-							scripts: [{
-								title: 'Script 1',
-								id: 2
-							}]
-						},
-						{
-							title: 'Text Btn',
-							type: 'text'
-						}
-					]
-				}
-			]
-		},
-
-		{
-			id: 2,
-			title: 'Script 1',
-			list_steps: [
-				{
-					title: 'Form Text',
-					type: 'text'
-				},
-				{
-					title: 'Form menu',
-					type: 'menu',
-					list_buttons: [
-						{
-							title: 'Script Btn',
-							type: 'script',
-							scripts: [{
-								title: 'Script 1',
-								id: 2
-							}]
-						},
-						{
-							title: 'Text Btn',
-							type: 'text'
-						}
-					]
-				}
-			]
-		}
-	];
+	$scope.scripts_copy = angular.copy($scope.scripts);
 
 	$scope.btn_click = (btn) => {
 		btn.clicked = true;
-		if (btn.type === 'script' && $scope.get_script(btn.script.id)) btn.script = $scope.get_script(btn.script.id);
+		if (btn.type === 'script') 
+			btn.scripts = [$scope.get_script(btn.scripts[0].id)];
 	};
 
 	$scope.get_step_icon = (type) => {
@@ -182,7 +128,4 @@ function AtScriptController() {
 	};
 
 	$scope.get_script = (id) => $scope.scripts_copy.find(x => x.id == id);
-
-	window.get_script = $scope.get_script;
-
 }
