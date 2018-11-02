@@ -47,68 +47,68 @@ app.component('atScript', {
 
 function AtScriptController() {
 	$scope = this;
+	$scope.scripts_copy = [
+		{
+			id: 1,
+			title: 'Welcome',
+			list_steps: [
+				{
+					title: 'Form Text',
+					type: 'text'
+				},
+				{
+					title: 'Form menu',
+					type: 'menu',
+					list_buttons: [
+						{
+							title: 'Script Btn',
+							type: 'script',
+							scripts: [{
+								title: 'Script 1',
+								id: 2
+							}]
+						},
+						{
+							title: 'Text Btn',
+							type: 'text'
+						}
+					]
+				}
+			]
+		},
+		{
+			id: 2,
+			title: 'Script 1',
+			list_steps: [
+				{
+					title: 'Form Text',
+					type: 'text'
+				},
+				{
+					title: 'Form menu',
+					type: 'menu',
+					list_buttons: [
+						{
+							title: 'Script Btn',
+							type: 'script',
+							scripts: [{
+								title: 'Script 1',
+								id: 2
+							}]
+						},
+						{
+							title: 'Text Btn',
+							type: 'text'
+						}
+					]
+				}
+			]
+		}
+	];
+	
 	if ($scope.type === 'parent') {
-		$scope.scripts = [
-			{
-				id: 1,
-				title: 'Welcome',
-				list_steps: [
-					{
-						title: 'Form Text',
-						type: 'text'
-					},
-					{
-						title: 'Form menu',
-						type: 'menu',
-						list_buttons: [
-							{
-								title: 'Script Btn',
-								type: 'script',
-								scripts: [{
-									title: 'Script 1',
-									id: 2
-								}]
-							},
-							{
-								title: 'Text Btn',
-								type: 'text'
-							}
-						]
-					}
-				]
-			},
-			{
-				id: 2,
-				title: 'Script 1',
-				list_steps: [
-					{
-						title: 'Form Text',
-						type: 'text'
-					},
-					{
-						title: 'Form menu',
-						type: 'menu',
-						list_buttons: [
-							{
-								title: 'Script Btn',
-								type: 'script',
-								scripts: [{
-									title: 'Script 1',
-									id: 2
-								}]
-							},
-							{
-								title: 'Text Btn',
-								type: 'text'
-							}
-						]
-					}
-				]
-			}
-		];
+		$scope.scripts = angular.copy($scope.scripts_copy);
 	}
-
-	$scope.scripts_copy = angular.copy($scope.scripts);
 
 	$scope.btn_click = (btn) => {
 		btn.clicked = true;
