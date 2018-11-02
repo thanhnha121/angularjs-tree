@@ -99,19 +99,19 @@ app.component('atScript', {
 
 			<div class="at-ul-step" ng-show="script.open">
 				<div class="at-li-step" ng-repeat="step in script.list_steps">
-					<div class="at-li-step-title" ng-click="$ctrl.step_click(step)">
-						<i class="{{$ctrl.get_step_icon(step.type)}}"></i>
+					<div class="at-li-step-title" ng-click="step_click(step)">
+						<i class="{{get_step_icon(step.type)}}"></i>
 						<div>{{step.title}}</div>
 
 						<div class="at-step-ul-btn" ng-show="step.type === 'menu'">
 							<div ng-repeat="btn in step.list_buttons">
 								<div class="at-btn-title" 
-									ng-click="$ctrl.btn_click(btn)">
+									ng-click="btn_click(btn)">
 									{{btn.title}}</div>
 
 								<at-script scripts='btn.scripts' 
 									ng-if='btn.clicked'
-									></at_script>
+									></at-script>
 							</div>
 						</div>	
 					</div>
