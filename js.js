@@ -1,52 +1,7 @@
 var app = angular.module('App', []);
 
-app.controller('Tree', AtScriptController);
-
-app.component('atScript', {
-    template: `
-    	<div ng-repeat="script in $ctrl.scripts"
-			class="at-script">
-			<div class="at-script-title" ng-click="script.open = !script.open">
-				<i class="ti-layers-alt"></i>
-				<div>{{script.title}}</div>
-			</div>
-
-			<div class="at-ul-step" ng-show="script.open">
-				<div class="at-li-step" ng-repeat="step in script.list_steps">
-					<div class="at-li-step-title" ng-click="$ctrl.step_click(step)">
-						<i class="{{$ctrl.get_step_icon(step.type)}}"></i>
-						<div>{{step.title}}</div>
-
-						<div class="at-step-ul-btn" ng-show="step.type === 'menu'">
-							<div ng-repeat="btn in step.list_buttons">
-								<div class="at-btn-title" 
-									ng-click="$ctrl.btn_click(btn)">
-									{{btn.title}}</div>
-
-								<at-script scripts='btn.scripts' 
-									type='sub' 
-									ng-if='btn.clicked'
-									></at_script>
-							</div>
-						</div>	
-					</div>
-					
-				</div>
-			</div>
-		</div>
-    `,
-    controller: [
-        AtScriptController
-    ],
-    bindings: {
-        scripts: '=',
-        type: '@'
-    }
-});
-
-
-function AtScriptController() {
-	$scope = this;
+function AtScriptController($scope, $rootScope) {
+	$rootScope.loaded = false;
 	$scope.scripts_copy = [
 		{
 			id: 1,
@@ -105,8 +60,9 @@ function AtScriptController() {
 			]
 		}
 	];
-	
-	if ($scope.type === 'parent') {
+
+	if (!$rootScope.loaded) {
+		$rootScope.loaded = true;
 		$scope.scripts = angular.copy($scope.scripts_copy);
 	}
 
@@ -128,4 +84,45 @@ function AtScriptController() {
 	};
 
 	$scope.get_script = (id) => $scope.scripts_copy.find(x => x.id == id);
-}
+};
+
+app.controller('Tree', ['$scope', '$rootScope', AtScriptController]);
+
+app.component('atScript', {
+    template: `
+    	<div ng-repeat="script in $ctrl.scripts"
+			class="at-script">
+			<div class="at-script-title" ng-click="script.open = !script.open">
+				<i class="ti-layers-alt"></i>
+				<div>{{script.title}}</div>
+			</div>
+
+			<div class="at-ul-step" ng-show="script.open">
+				<div class="at-li-step" ng-repeat="step in script.list_steps">
+					<div class="at-li-step-title" ng-click="$ctrl.step_click(step)">
+						<i class="{{$ctrl.get_step_icon(step.type)}}"></i>
+						<div>{{step.title}}</div>
+
+						<div class="at-step-ul-btn" ng-show="step.type === 'menu'">
+							<div ng-repeat="btn in step.list_buttons">
+								<div class="at-btn-title" 
+									ng-click="$ctrl.btn_click(btn)">
+									{{btn.title}}</div>
+
+								<at-script scripts='btn.scripts' 
+									ng-if='btn.clicked'
+									></at_script>
+							</div>
+						</div>	
+					</div>
+					
+				</div>
+			</div>
+		</div>
+    `,
+    controller: [ '$scope', '$rootScope', AtScriptController ],
+    bindings: {
+        scripts: '=',
+        typex: '@'
+    }
+});
