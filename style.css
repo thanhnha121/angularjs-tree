@@ -1,0 +1,42 @@
+.at-app {
+	width: 300px;
+	overflow: auto;
+}
+
+.at-script {
+	width: 100%;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.at-script-title {
+	width: 100%;
+	display: inline-block;
+}
+
+.at-script-title > i {
+	float: left;
+	width: 22px;
+}
+
+.at-script-title > div {
+	float: left;
+}
+
+.at-ul-step {
+	margin-left: 20px;
+}
+
+.at-li-step {
+	width: 100%;
+	display: inline-block;
+}
+
+.at-li-step-title > i {
+	float: left;
+	width: 22px;
+}
+
+.at-li-step-title > div {
+	float: left;
+}
